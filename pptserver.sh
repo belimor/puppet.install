@@ -1,13 +1,20 @@
 #!/bin/bash
 
-echo " ===> Installing tmux"
-apt-get install -y tmux
+#echo " ===> Installing tmux"
+#apt-get install -y tmux
+echo " ===> Installing the Puppetlabs apt repo"
+wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+dpkg -i puppetlabs-release-trusty.deb
+rm puppetlabs-release-trusty.deb
+apt-get update
 
 echo " ===> Installing puppetserver"
 apt-get -y install puppetserver
 
 echo " ===> Configuring puppetserver"
 sed -i -e 's/JAVA_ARGS="-Xms2g -Xmx2g -XX:MaxPermSize=256m"/JAVA_ARGS="-Xms1g -Xmx1g -XX:MaxPermSize=256m"/' /etc/default/puppetserver
+
+mkdir -p /etc/facter/facts.d
 
 echo " ===> Configure Puppet"
 sed -i '/templatedir/d' /etc/puppet/puppet.conf
@@ -21,7 +28,7 @@ gem install librarian-puppet-simple
 echo " ===> Installing Modules"
 cd /etc/puppet/
 #librarian-puppet install --puppetfile=/vagrant/support/puppet/Puppetfile
-librarian-puppet install --puppetfile=puppetfile
+librarian-puppet install --puppetfile=./puppetfile
 
 echo " ===> Configuring Hiera"
 rm /etc/hiera.yaml
@@ -40,6 +47,9 @@ apt-get -y install puppetdb
 cd /root
 echo include puppetdb > pdb.pp
 echo include puppetdb::master::config >> pdb.pp
+puppet apply --verbose pdb.pp
+echo "===> sleep 5"
+sleep 5
 puppet apply --verbose pdb.pp
 rm pdb.pp
 
