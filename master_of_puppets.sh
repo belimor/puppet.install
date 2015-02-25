@@ -170,8 +170,8 @@ ln -s $SITE/ext/site.pp $PROD/manifests/
 
 
 sed -i '/sldir/,+1d' /etc/puppet/modules/puppet/manifests/master/passenger.pp
-sed -i '/Create Apache vhost/a apache::vhost { '\''puppet-master'\'':' /etc/puppet/modules/puppet/manifests/master/passenger.pp
-sed -i '/Create Apache vhost/a \ \ $ssldir = '\''/var/lib/puppet/ssl'\'',' /etc/puppet/modules/puppet/manifests/master/passenger.pp
+sed -i '/Create Apache vhost/a \ \ apache::vhost { '\''puppet-master'\'':' /etc/puppet/modules/puppet/manifests/master/passenger.pp
+sed -i '/Create Apache vhost/a \ \ $ssldir = '\''/var/lib/puppet/ssl'\''' /etc/puppet/modules/puppet/manifests/master/passenger.pp
 
 
 echo "===> puppet apply --verbose /etc/puppet/manifests/site.pp"
