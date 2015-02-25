@@ -26,9 +26,9 @@ echo " ===> Installing Librarian Puppet Simple"
 gem install librarian-puppet-simple
 
 echo " ===> Installing Modules"
-cd /etc/puppet/
+#cd /etc/puppet/
 #librarian-puppet install --puppetfile=/vagrant/support/puppet/Puppetfile
-librarian-puppet install --puppetfile=./puppetfile
+librarian-puppet install --puppetfile=./puppetfile --path=/etc/puppet/modules
 
 echo " ===> Configuring Hiera"
 rm /etc/hiera.yaml
