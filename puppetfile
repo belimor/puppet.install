@@ -1,0 +1,75 @@
+forge 'http://forge.puppetlabs.com'
+
+mod 'apache',
+  :git => 'https://github.com/puppetlabs/puppetlabs-apache',
+  :ref => '1.2.0'
+
+mod 'apt',
+  :git => 'https://github.com/puppetlabs/puppetlabs-apt',
+  :ref => '1.7.0'
+
+mod 'bass',
+  :git => 'https://github.com/jtopjian/puppet-bass'
+
+mod 'concat',
+  :git => 'https://github.com/puppetlabs/puppetlabs-concat',
+  :ref => '1.1.2'
+
+mod 'firewall',
+  :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
+  :ref => '1.3.0'
+
+mod 'hash2json',
+  :git => 'https://github.com/jtopjian/puppet-hash2json'
+
+mod 'inifile',
+  :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
+  :ref => '792d35cdb48fc2cba08ab578c1b7bc42ef3a0ace'
+
+mod 'memcached',
+  :git => 'https://github.com/saz/puppet-memcached',
+  :ref => 'v2.6.0'
+
+mod 'mysql',
+  :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
+  :ref => '3.0.0'
+
+mod 'postgresql',
+  :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
+  :ref => '4.1.0'
+
+mod 'puppet',
+  :git => 'https://github.com/jtopjian/puppet-puppet',
+  :ref => 'puppetserver'
+
+mod 'puppetdb',
+  :git => 'https://github.com/puppetlabs/puppetlabs-puppetdb',
+  :ref => '4.1.0'
+
+mod 'puppetdbquery',
+  :git => 'https://github.com/dalen/puppet-puppetdbquery',
+  :ref => '1.5.3'
+
+mod 'rabbitmq',
+  :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
+  :ref => '2.x'
+
+mod 'redis',
+  :git => 'https://github.com/jtopjian/puppet-redis'
+
+mod 'site',
+  :git => 'https://github.com/jtopjian/puppet-site-metrics'
+
+mod 'sshkeys',
+  :git => 'https://github.com/jtopjian/puppet-sshkeys'
+
+mod 'staging',
+  :git => 'https://github.com/nanliu/puppet-staging'
+
+mod 'stdlib',
+  :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
+  :ref => '4.4.x'
+
+mod 'sysctl',
+  :git => 'https://github.com/puppetlabs/puppetlabs-sysctl'
+
