@@ -10,4 +10,37 @@ dpkg -i puppetlabs-release-trusty.deb
 rm puppetlabs-release-trusty.deb
 apt-get update
 
-apt-get install -y puppetmaster-passenger puppet
+apt-get install -y puppetmaster 
+
+echo "========> Initial changes to puppet.conf"
+sed -i '/templatedir/d' /etc/puppet/puppet.conf
+puppet config set --section main parser future
+puppet config set --section main evaluator current
+puppet config set --section main ordering manifest
+
+puppet master --verbose
+sleep 3
+kill $!
+
+mkdir /etc/puppet/modules/site
+mkdir -p /etc/puppet/manifests/site/{files,templates,manifests,ext,data}
+mkdir -p /etc/puppet/manifests/site/manifests/{roles,profiles}
+
+cat > /etc/puppet/manifests/site/manifests/roles/base.pp <<EOF
+class site::roles::base {
+}
+EOF
+
+cat > /etc/puppet/manifests/site/ext/site.pp <<EOF
+node base {
+  include site::roles::base
+}
+node '$(hostname)' {
+  include site::roles::base
+}
+EOF
+
+ln -s /etc/puppet/manifests/site/ext/site.pp /etc/puppet/manifests/
+
+echo "===> puppet apply --verbose /etc/puppet/manifests/site.pp"
+puppet apply --verbose /etc/puppet/manifests/site.pp
