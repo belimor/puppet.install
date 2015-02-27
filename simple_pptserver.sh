@@ -18,9 +18,10 @@ puppet config set --section main parser future
 puppet config set --section main evaluator current
 puppet config set --section main ordering manifest
 
-puppet master --verbose
+puppet master --verbose & 
+mypid=$!
 sleep 3
-kill $!
+kill mypid
 
 mkdir /etc/puppet/modules/site
 mkdir -p /etc/puppet/manifests/site/{files,templates,manifests,ext,data}
