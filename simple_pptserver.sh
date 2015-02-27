@@ -13,15 +13,17 @@ apt-get update
 apt-get install -y puppetmaster 
 
 echo "========> Initial changes to puppet.conf"
+pptserver=$(facter fqdn)
 sed -i '/templatedir/d' /etc/puppet/puppet.conf
 puppet config set --section main parser future
 puppet config set --section main evaluator current
 puppet config set --section main ordering manifest
+puppet config set --section main server $pptserver
 
 puppet master --verbose & 
 mypid=$!
 sleep 3
-kill mypid
+kill $mypid
 
 mkdir /etc/puppet/modules/site
 mkdir -p /etc/puppet/modules/site/{files,templates,manifests,ext,data}
