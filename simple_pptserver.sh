@@ -24,15 +24,15 @@ sleep 3
 kill mypid
 
 mkdir /etc/puppet/modules/site
-mkdir -p /etc/puppet/manifests/site/{files,templates,manifests,ext,data}
-mkdir -p /etc/puppet/manifests/site/manifests/{roles,profiles}
+mkdir -p /etc/puppet/modules/site/{files,templates,manifests,ext,data}
+mkdir -p /etc/puppet/modules/site/manifests/{roles,profiles}
 
-cat > /etc/puppet/manifests/site/manifests/roles/base.pp <<EOF
+cat > /etc/puppet/modules/site/manifests/roles/base.pp <<EOF
 class site::roles::base {
 }
 EOF
 
-cat > /etc/puppet/manifests/site/ext/site.pp <<EOF
+cat > /etc/puppet/modules/site/ext/site.pp <<EOF
 node base {
   include site::roles::base
 }
@@ -41,7 +41,7 @@ node '$(hostname)' {
 }
 EOF
 
-ln -s /etc/puppet/manifests/site/ext/site.pp /etc/puppet/manifests/
+ln -s /etc/puppet/modules/site/ext/site.pp /etc/puppet/manifests/
 
 echo "===> puppet apply --verbose /etc/puppet/manifests/site.pp"
 puppet apply --verbose /etc/puppet/manifests/site.pp
