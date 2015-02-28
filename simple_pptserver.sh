@@ -20,10 +20,11 @@ puppet config set --section main evaluator current
 puppet config set --section main ordering manifest
 puppet config set --section main server $pptserver
 
-puppet master --verbose & 
-mypid=$!
-sleep 3
-kill $mypid
+puppet master --verbose 
+#& 
+#mypid=$!
+#sleep 3
+#kill $mypid
 
 mkdir /etc/puppet/modules/site
 mkdir -p /etc/puppet/modules/site/{files,templates,manifests,ext,data}
