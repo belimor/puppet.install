@@ -6,7 +6,8 @@
 # Set up proper hostname
 echo 127.0.0.1 $(hostname).cybera.ca $(hostname) >> /etc/hosts
 
-# Installing curl and wget
+echo -e "\n=================>"
+echo "Installing curl and wget"
 apt-get update
 apt-get install -y curl wget git
 
@@ -16,6 +17,7 @@ dpkg -i puppetlabs-release-trusty.deb
 rm puppetlabs-release-trusty.deb
 apt-get update
 
+echo -e "\n=================>"
 echo "Installing Puppet"
 #apt-get install -y puppetmaster-passenger
 apt-get install -y puppetmaster
@@ -23,11 +25,12 @@ apt-get install -y puppetmaster
 
 mkdir -p /etc/facter/facts.d
 
+echo -e "\n=================>"
 echo "Initial changes to puppet.conf"
 sed -i '/templatedir/d' /etc/puppet/puppet.conf
-puppet config set --section main parser future
-puppet config set --section main evaluator current
-puppet config set --section main ordering manifest
+#puppet config set --section main parser future
+#puppet config set --section main evaluator current
+#puppet config set --section main ordering manifest
 
 echo "Starting Puppet Master to generate certs"
 puppet master --verbose
@@ -35,6 +38,7 @@ sleep 5
 echo "Killing Puppet Master"
 pkill -9 puppet
 
+echo -e "\n=================>"
 echo "Installing PuppetDB"
 cd /etc/puppet/modules
 puppet module install puppetlabs/puppetdb
@@ -44,19 +48,19 @@ echo include puppetdb::master::config >> pdb.pp
 puppet apply --verbose pdb.pp
 echo "===> sleep 5"
 sleep 5
-echo "===========>"
 puppet apply --verbose pdb.pp
 
 rm -rf /etc/puppet/modules/*
 rm /root/pdb.pp
 
+echo -e "\n=================>"
 echo "Setting up Directory Environments"
 PROD="/etc/puppet"
 SITE="${PROD}/modules/site"
 #puppet config set --section main environmentpath \$confdir/environments
 #mkdir -p $PROD/{modules,manifests}
 mkdir $PROD/modules/site
-mkdir -p $SITE/{files,templates,manifests,ext,data}
+mkdir -p $SITE/{files,templates,manifests,tests,ext,data}
 mkdir -p $SITE/manifests/{roles,profiles}
 
 mv /etc/puppet/puppet.conf $SITE/ext

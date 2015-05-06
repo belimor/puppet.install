@@ -1,7 +1,9 @@
 #!/bin/bash
 
-#echo " ===> Installing tmux"
-#apt-get install -y tmux
+echo " ===> Installing curl wget git tmux"
+apt-get update
+apt-get install -y curl wget git tmux
+
 echo " ===> Installing the Puppetlabs apt repo"
 wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
 dpkg -i puppetlabs-release-trusty.deb
@@ -22,13 +24,13 @@ puppet config set --section main parser future
 puppet config set --section main evaluator current
 puppet config set --section main ordering manifest
 
-echo " ===> Installing Librarian Puppet Simple"
-gem install librarian-puppet-simple
+#echo " ===> Installing Librarian Puppet Simple"
+#gem install librarian-puppet-simple
 
-echo " ===> Installing Modules"
+#echo " ===> Installing Modules"
 #cd /etc/puppet/
 #librarian-puppet install --puppetfile=/vagrant/support/puppet/Puppetfile
-librarian-puppet install --puppetfile=./puppetfile --path=/etc/puppet/modules
+#librarian-puppet install --puppetfile=./puppetfile --path=/etc/puppet/modules
 
 echo " ===> Configuring Hiera"
 rm /etc/hiera.yaml
