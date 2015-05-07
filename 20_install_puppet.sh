@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo -e "\n=======> Configure Puppet"
+# templatedir - depricated
 sed -i '/templatedir/d' /etc/puppet/puppet.conf
 puppet config set --section main parser future
 puppet config set --section main evaluator current
@@ -42,4 +43,4 @@ if [ ! -e "$(puppet config print hostcert)" ]; then
   puppet cert generate $(puppet config print certname)
 fi
 
-
+puppet master --verbose
