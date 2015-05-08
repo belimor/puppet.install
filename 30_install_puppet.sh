@@ -6,8 +6,9 @@ puppetdbpwd="password"
 echo -e "\n=======> Installing PuppetDB"
 apt-get -y install puppetdb postgresql puppetdb-terminus postgresql-contrib
 
-sudo -u postgres <<EOF
-createuser -DRSP puppetdb -W ${puppetdbpwd}
+sudo -u postgres bash <<EOF
+createuser -DRS puppetdb 
+psql -c "ALTER USER puppetdb WITH PASSWORD '${puppetdbpwd}';"
 createdb -E UTF8 -O puppetdb puppetdb
 psql puppetdb -c 'create extension pg_trgm'
 EOF
@@ -55,6 +56,7 @@ EOF
 chown -R puppet:puppet `puppet config print confdir`
 
 service puppetdb restart
+sleep 30
 service puppetserever restart
 puppet agent -t
 
