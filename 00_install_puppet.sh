@@ -13,3 +13,6 @@ APT::Periodic::Unattended-Upgrade "1";
 
 echo -e "\n=======> Check your /etc/hosts"
 cat /etc/hosts
+
+
+

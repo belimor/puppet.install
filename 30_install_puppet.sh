@@ -56,12 +56,10 @@ EOF
 chown -R puppet:puppet `puppet config print confdir`
 
 service puppetdb restart
-sleep 30
+sleep 60
+tail /var/log/puppetdb/puppetdb.log
 service puppetserever restart
-sleep 30
-service puppetdb restart
-sleep 30
-service puppetserever restart
-sleep 30
+sleep 60
+tail /var/log/puppetserver/puppetserver.log
 puppet agent -t
 
