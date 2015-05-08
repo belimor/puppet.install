@@ -1,6 +1,6 @@
 #!/bin/bash
 
-myhostname = $( facter fqdn )
+myhostname=$( facter fqdn )
 
 echo -e "\n=======> Configure Puppet"
 # templatedir - depricated

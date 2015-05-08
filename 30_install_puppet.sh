@@ -1,20 +1,20 @@
 #!/bin/bash
 
-myhostname = $( facter fqdn )
-puppetdbpwd = "password"
+myhostname=$( facter fqdn )
+puppetdbpwd="password"
 
 echo -e "\n=======> Installing PuppetDB"
 apt-get -y install puppetdb postgresql puppetdb-terminus postgresql-contrib
 
 sudo -u postgres <<EOF
-createuser -DRSP puppetdb -W ${pupptdbpwd}
+createuser -DRSP puppetdb -W ${puppetdbpwd}
 createdb -E UTF8 -O puppetdb puppetdb
 psql puppetdb -c 'create extension pg_trgm'
 EOF
 
 service postgresql restart
 
-cat /etc/puppetdb/conf.d/database.ini <<EOF
+cat > /etc/puppetdb/conf.d/database.ini <<EOF
 [database]
 classname = org.postgresql.Driver
 subprotocol = postgresql
@@ -24,7 +24,7 @@ password = $puppetdbpwd
 log-slow-statements = 10
 EOF
 
-cat /etc/puppetdb/conf.d/config.ini << EOF
+cat > /etc/puppetdb/conf.d/config.ini << EOF
 [global]
 vardir = /var/lib/puppetdb
 logging-config = /etc/puppetdb/logback.xml
@@ -34,7 +34,7 @@ store-usage = 10240
 temp-usage = 5120
 EOF
 
-cat /etc/puppet/puppetdb.conf <<EOF
+cat > /etc/puppet/puppetdb.conf <<EOF
 [main]
 server = $myhostname
 port = 8081
