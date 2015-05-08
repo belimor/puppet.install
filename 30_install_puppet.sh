@@ -58,5 +58,10 @@ chown -R puppet:puppet `puppet config print confdir`
 service puppetdb restart
 sleep 30
 service puppetserever restart
+sleep 30
+service puppetdb restart
+sleep 30
+service puppetserever restart
+sleep 30
 puppet agent -t
 
