@@ -9,7 +9,7 @@ sudo apt-get install -y unattended-upgrades
 echo """
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Unattended-Upgrade "1";
-""" | sudo tee /etc/apt/apt.conf.d/20auto-upgrades
+""" | tee /etc/apt/apt.conf.d/20auto-upgrades
 
 echo -e "\n=======> Check your /etc/hosts"
 cat /etc/hosts
@@ -72,6 +72,7 @@ if [ ! -e "$(puppet config print hostcert)" ]; then
   puppet cert generate $(puppet config print certname)
 fi
 
+echo -e "\n=======> Starting puppet server"
 service puppetserver start
 puppet agent -t
 service puppetserver status
@@ -104,7 +105,7 @@ password = $puppetdbpwd
 log-slow-statements = 10
 EOF
 
-cat > /etc/puppetdb/conf.d/config.ini << EOF
+cat > /etc/puppetdb/conf.d/config.ini <<EOF
 [global]
 vardir = /var/lib/puppetdb
 logging-config = /etc/puppetdb/logback.xml
@@ -132,12 +133,13 @@ master:
     cache: yaml
 EOF
 
-chown -R puppet:puppet `puppet config print confdir`
+chown -R puppet:puppet $(puppet config print confdir)
 
+echo -e "\n=======> Restarting puppet server"
 service puppetdb restart
 sleep 60
 tail /var/log/puppetdb/puppetdb.log
-service puppetserever restart
+service puppetserver restart
 sleep 60
 tail /var/log/puppetserver/puppetserver.log
 puppet agent -t
