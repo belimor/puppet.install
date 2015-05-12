@@ -58,8 +58,11 @@ cat > /etc/puppet/modules/site/ext/hiera.yaml <<EOF
   :datadir: "/etc/puppet/modules/site/data"
 EOF
 
+echo "# Base" > $SITE/data/common.yaml
+
 mkdir $SITE/data/nodes
 mkdir $SITE/data/locations
+mkdir $SITE/data/osfamily
 
 rm /etc/hiera.yaml
 ln -s /etc/puppet/modules/site/ext/hiera.yaml /etc
@@ -72,7 +75,8 @@ if [ ! -e "$(puppet config print hostcert)" ]; then
   puppet cert generate $(puppet config print certname)
 fi
 
-echo -e "\n=======> Starting puppet server"
+echo ""
+echo "=======> Starting puppet server"
 service puppetserver start
 puppet agent -t
 service puppetserver status
@@ -80,10 +84,15 @@ sleep 5
 tail /var/log/puppetserver/puppetserver.log
 service puppetserver stop
 
+echo ""
+echo "=======> Installing Puppet-Lint"
+gem install puppet-lint
+
 myhostname=$( facter fqdn )
 puppetdbpwd="password"
 
-echo -e "\n=======> Installing PuppetDB"
+echo ""
+echo "=======> Installing PuppetDB"
 apt-get -y install puppetdb postgresql puppetdb-terminus postgresql-contrib
 
 sudo -u postgres bash <<EOF
@@ -135,7 +144,8 @@ EOF
 
 chown -R puppet:puppet $(puppet config print confdir)
 
-echo -e "\n=======> Restarting puppet server"
+echo ""
+echo "=======> Restarting puppet server"
 service puppetdb restart
 sleep 60
 tail /var/log/puppetdb/puppetdb.log
