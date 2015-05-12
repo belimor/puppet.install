@@ -52,17 +52,21 @@ cat > /etc/puppet/modules/site/ext/hiera.yaml <<EOF
 :hierarchy:
   - "nodes/%{::fqdn}"
   - "osfamily/%{::osfamily}"
+  - "operatingsystem/%{::operatingsystem}_%{lsbmajdistrelease}"
   - "locations/%{::location}"
   - "common"
 :yaml:
   :datadir: "/etc/puppet/modules/site/data"
+:merge_behavior: deeper
 EOF
-
-echo "# Base" > $SITE/data/common.yaml
 
 mkdir $SITE/data/nodes
 mkdir $SITE/data/locations
+mkdir $SITE/data/operatingsystem
 mkdir $SITE/data/osfamily
+
+echo "---" > $SITE/data/common.yaml
+echo "---" > $SITE/data/operatingsystem/Ubuntu_14.04.yaml
 
 rm /etc/hiera.yaml
 ln -s /etc/puppet/modules/site/ext/hiera.yaml /etc
@@ -143,6 +147,8 @@ master:
 EOF
 
 chown -R puppet:puppet $(puppet config print confdir)
+chown -R root:puppet /etc/puppet/modules/site/data
+#chmod -R 0640 /etc/puppet/modules/site/data
 
 echo ""
 echo "=======> Restarting puppet server"
