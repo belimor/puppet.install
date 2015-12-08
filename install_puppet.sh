@@ -82,6 +82,7 @@ fi
 echo ""
 echo "=======> Starting puppet server"
 service puppetserver start
+puppet agent --enable
 puppet agent -t
 service puppetserver status
 sleep 5
@@ -158,5 +159,6 @@ tail /var/log/puppetdb/puppetdb.log
 service puppetserver restart
 sleep 60
 tail /var/log/puppetserver/puppetserver.log
+puppet agent --enable
 puppet agent -t
 
